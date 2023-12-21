@@ -16,7 +16,7 @@ import java.util.Optional;
 @Auditing
 @Transaction
 @RequiredArgsConstructor
-public class UserRepository implements CrudRepository<Long, Company> {
+public class CompanyRepository implements CrudRepository<Long, Company> {
 
     @Qualifier("pool1")
     private final ConnectionPool pool1;
