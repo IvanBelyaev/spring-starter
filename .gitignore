@@ -2,7 +2,7 @@
 .idea
 target
 out
-
+build
 
 *.class
 *.jar
