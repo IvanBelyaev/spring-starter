@@ -1,5 +1,6 @@
 package org.example.spring.integration.annotation;
 
+import org.example.spring.integration.TestApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -11,6 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(classes = TestApplication.class)
 public @interface IT {
 }

@@ -1,4 +1,4 @@
-package org.example.spring.integration;
+package org.example.spring.integration.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.spring.config.DatabaseProperties;
