@@ -1,0 +1,16 @@
+.gradle
+.idea
+target
+out
+
+
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.iml
+
+!gradle-wrapper.jar
