@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class CompanyServiceIT {
-    private static final Long COMPANY_ID = 1L;
+    private static final Integer COMPANY_ID = 1;
 
     private final CompanyService companyService;
     private final DatabaseProperties databaseProperties;

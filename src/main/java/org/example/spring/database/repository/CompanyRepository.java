@@ -9,6 +9,7 @@ import org.example.spring.database.pool.ConnectionPool;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -16,15 +17,15 @@ import java.util.Optional;
 @Auditing
 @Transaction
 @RequiredArgsConstructor
-public class CompanyRepository implements CrudRepository<Long, Company> {
+public class CompanyRepository implements CrudRepository<Integer, Company> {
 
     @Qualifier("pool1")
     private final ConnectionPool pool1;
 
     @Override
-    public Optional<Company> getById(Long key) {
+    public Optional<Company> getById(Integer key) {
         log.info("get byId");
-        return Optional.of(new Company(key));
+        return Optional.of(new Company(key, null, Collections.emptyMap()));
     }
 
     @Override

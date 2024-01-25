@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Optional;
 
+import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -20,12 +21,12 @@ import static org.mockito.Mockito.*;
      MockitoExtension.class
 })
 class CompanyServiceTest {
-    private static final Long COMPANY_ID = 1L;
+    private static final Integer COMPANY_ID = 1;
 
     @Mock
     private UserService userService;
     @Mock
-    private CrudRepository<Long, Company> companyRepository;
+    private CrudRepository<Integer, Company> companyRepository;
     @Mock
     private ApplicationEventPublisher eventPublisher;
     @InjectMocks
@@ -33,7 +34,7 @@ class CompanyServiceTest {
 
     @Test
     void findById() {
-        doReturn(Optional.of(new Company(COMPANY_ID))).when(companyRepository).getById(COMPANY_ID);
+        doReturn(Optional.of(new Company(COMPANY_ID, null, emptyMap()))).when(companyRepository).getById(COMPANY_ID);
 
         Optional<CompanyReadDto> maybeCompany = companyService.findById(COMPANY_ID);
 
@@ -47,9 +48,9 @@ class CompanyServiceTest {
 
     @Test
     void delete() {
-        doNothing().when(companyRepository).delete(new Company(COMPANY_ID));
+        doNothing().when(companyRepository).delete(new Company(COMPANY_ID, null, emptyMap()));
 
-        companyService.delete(new Company(COMPANY_ID));
+        companyService.delete(new Company(COMPANY_ID, null, emptyMap()));
 
         verifyNoMoreInteractions(userService, eventPublisher, companyRepository);
     }
