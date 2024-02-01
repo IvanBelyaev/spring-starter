@@ -1,35 +1,23 @@
 package org.example.spring.database.repository;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.example.spring.bpp.Auditing;
-import org.example.spring.bpp.Transaction;
 import org.example.spring.database.entity.Company;
-import org.example.spring.database.pool.ConnectionPool;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-@Slf4j
-@Repository
-@Auditing
-@Transaction
-@RequiredArgsConstructor
-public class CompanyRepository implements CrudRepository<Integer, Company> {
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-    @Qualifier("pool1")
-    private final ConnectionPool pool1;
+//    @Query(name = "Company.findByName")
+    @Query("""
+        select c
+        from Company c
+        join fetch c.locales l
+        where c.name = :companyName
+    """)
+    Optional<Company> findByName(@Param("companyName") String name);
 
-    @Override
-    public Optional<Company> getById(Integer key) {
-        log.info("get byId");
-        return Optional.of(new Company(key, null, Collections.emptyMap()));
-    }
-
-    @Override
-    public void delete(Company entity) {
-        log.warn("delete entity");
-    }
+    List<Company> findByNameContainingIgnoreCase(String fragment);
 }

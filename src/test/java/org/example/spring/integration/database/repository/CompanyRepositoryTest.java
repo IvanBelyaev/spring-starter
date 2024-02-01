@@ -3,6 +3,7 @@ package org.example.spring.integration.database.repository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.example.spring.database.entity.Company;
+import org.example.spring.database.repository.CompanyRepository;
 import org.example.spring.integration.annotation.IT;
 import org.example.spring.listener.CustomTestExecutionListener;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,32 @@ public class CompanyRepositoryTest {
 
     private final EntityManager entityManager;
     private final TransactionTemplate transactionTemplate;
+    private final CompanyRepository companyRepository;
+
+    @Test
+    void testQueries() {
+        companyRepository.findByName("Google");
+        companyRepository.findByNameContainingIgnoreCase("e");
+    }
+
+    @Test
+    void delete() {
+        var apple = Company.builder()
+                .name("Apple")
+                .build();
+        entityManager.persist(apple);
+        entityManager.flush();
+        entityManager.clear();
+        assertNotNull(apple.getId());
+
+        var maybeCompany = companyRepository.findById(apple.getId());
+        assertThat(maybeCompany).isPresent();
+        maybeCompany.ifPresent(companyRepository::delete);
+        entityManager.flush();
+
+        assertThat(companyRepository.findById(apple.getId())).isEmpty();
+    }
+
 
     @Test
     void findById() {
@@ -33,7 +60,7 @@ public class CompanyRepositoryTest {
     }
 
     @Test
-    public void save() {
+    void save() {
         var apple = Company.builder()
                 .name("Apple")
                 .build();

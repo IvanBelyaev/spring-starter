@@ -1,7 +1,7 @@
 package org.example.spring.service;
 
 import org.example.spring.database.entity.Company;
-import org.example.spring.database.repository.CrudRepository;
+import org.example.spring.database.repository.CompanyRepository;
 import org.example.spring.dto.CompanyReadDto;
 import org.example.spring.listener.event.AccessTypeEvent;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class CompanyServiceTest {
     @Mock
     private UserService userService;
     @Mock
-    private CrudRepository<Integer, Company> companyRepository;
+    private CompanyRepository companyRepository;
     @Mock
     private ApplicationEventPublisher eventPublisher;
     @InjectMocks
@@ -34,7 +34,7 @@ class CompanyServiceTest {
 
     @Test
     void findById() {
-        doReturn(Optional.of(new Company(COMPANY_ID, null, emptyMap()))).when(companyRepository).getById(COMPANY_ID);
+        doReturn(Optional.of(new Company(COMPANY_ID, null, emptyMap()))).when(companyRepository).findById(COMPANY_ID);
 
         Optional<CompanyReadDto> maybeCompany = companyService.findById(COMPANY_ID);
 
