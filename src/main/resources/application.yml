@@ -22,6 +22,7 @@ logging:
   level:
     root: INFO
     org.example.spring.bpp: INFO
+    org.springframework.jdbc.core: TRACE
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres
@@ -29,6 +30,8 @@ spring:
     password: password
   jpa:
     properties.hibernate:
+      batch_size: 50
+      fetch_size: 50
       show_sql: true
       format_sql: true
       hbm2ddl.auto: validate

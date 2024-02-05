@@ -121,4 +121,22 @@ class UserRepositoryTest {
         var users = userRepository.findAll(predicate);
         assertThat(users).hasSize(4);
     }
+
+    @Test
+    void checkJdbcTemplate() {
+        var users = userRepository.findAllByCompanyIdAndRole(1, Role.USER);
+        assertThat(users).hasSize(1);
+    }
+
+    @Test
+    void checkBatch() {
+        var users = userRepository.findAll();
+        userRepository.updateCompanyAndRole(users);
+    }
+
+    @Test
+    void checkBatchNamed() {
+        var users = userRepository.findAll();
+        userRepository.updateCompanyAndRoleNamed(users);
+    }
 }
