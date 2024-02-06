@@ -2,13 +2,12 @@ package org.example.spring.integration.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.spring.database.pool.ConnectionPool;
-import org.example.spring.integration.annotation.IT;
+import org.example.spring.integration.IntegrationTestBase;
 import org.example.spring.service.UserService;
 import org.junit.jupiter.api.Test;
 
-@IT
 @RequiredArgsConstructor
-public class UserServiceIT {
+public class UserServiceIT extends IntegrationTestBase {
 
     private final UserService userService;
 
