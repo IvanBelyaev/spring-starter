@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.example.spring.database.entity.Company;
 import org.example.spring.database.repository.CompanyRepository;
+import org.example.spring.integration.IntegrationTestBase;
 import org.example.spring.integration.annotation.IT;
 import org.example.spring.listener.CustomTestExecutionListener;
 import org.junit.jupiter.api.Test;
@@ -13,13 +14,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@IT
 @RequiredArgsConstructor
 //@Commit
 @TestExecutionListeners(
         listeners = CustomTestExecutionListener.class,
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-public class CompanyRepositoryTest {
+public class CompanyRepositoryTest extends IntegrationTestBase {
 
     private final EntityManager entityManager;
     private final TransactionTemplate transactionTemplate;

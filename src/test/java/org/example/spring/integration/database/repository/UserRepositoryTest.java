@@ -6,24 +6,18 @@ import org.example.spring.database.entity.User;
 import org.example.spring.database.querydsl.QPredicate;
 import org.example.spring.database.repository.UserRepository;
 import org.example.spring.dto.FilterUser;
-import org.example.spring.integration.annotation.IT;
+import org.example.spring.integration.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.spring.database.entity.QUser.user;
 
-@IT
-@Sql(value = {
-        "classpath:sql/data.sql"
-}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 @RequiredArgsConstructor
-class UserRepositoryTest {
+class UserRepositoryTest extends IntegrationTestBase {
 
     private final UserRepository userRepository;
 
@@ -107,7 +101,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    @Commit
+//    @Commit
     void checkAuditing() {
         var maybeUser = userRepository.findById(1L);
         maybeUser.ifPresent(user -> user.setBirthDate(LocalDate.now()));

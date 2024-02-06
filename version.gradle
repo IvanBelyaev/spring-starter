@@ -1,0 +1,6 @@
+ext {
+    versions = [
+            'testContainers': '1.19.4',
+            'querydsl': '5.0.0'
+    ]
+}
