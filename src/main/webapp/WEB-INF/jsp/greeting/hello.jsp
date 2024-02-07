@@ -5,6 +5,6 @@
     <title>Hello</title>
 </head>
 <body>
-<h2>Hello World!</h2>
+<h2>Hello ${sessionScope.user.username}!</h2>
 </body>
 </html>
