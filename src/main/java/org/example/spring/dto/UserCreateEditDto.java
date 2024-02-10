@@ -6,12 +6,12 @@ import org.example.spring.database.entity.Role;
 import java.time.LocalDate;
 
 @Value
-public class UserReadDto {
+public class UserCreateEditDto {
     Long id;
     String username;
     String firstName;
     String lastName;
     LocalDate birthDate;
     Role role;
-    CompanyReadDto company;
+    Integer companyId;
 }

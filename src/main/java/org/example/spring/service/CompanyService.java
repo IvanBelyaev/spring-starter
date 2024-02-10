@@ -22,7 +22,7 @@ public class CompanyService {
         return companyRepository.findById(id)
                 .map(company -> {
                     eventPublisher.publishEvent(new AccessTypeEvent(company, AccessType.UPDATE));
-                    return new CompanyReadDto(company.getId());
+                    return new CompanyReadDto(company.getId(), null);
                 });
     }
 
