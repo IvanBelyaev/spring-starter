@@ -33,16 +33,16 @@ public class UserController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+//    @ResponseStatus(HttpStatus.CREATED)
     public String create(@ModelAttribute UserCreateEditDto user) {
-        return "redirect:user/user/" + userService.create(user).getId();
+        return "redirect:/users/" + userService.create(user).getId();
     }
 
 //    @PutMapping("/{id}")
     @PostMapping("/{id}/update")
     public String update(@PathVariable("id") Long id, @ModelAttribute UserCreateEditDto user) {
         return userService.update(id, user)
-                .map(userReadDto -> "redirect:user/user/" + userReadDto.getId())
+                .map(userReadDto -> "redirect:/users/" + userReadDto.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
@@ -50,7 +50,7 @@ public class UserController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         if (userService.delete(id)) {
-            return "redirect:user/users";
+            return "redirect:/users";
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
