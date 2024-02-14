@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Value
 @Builder
-public class FilterUser {
+public class UserFilter {
 
     String firstName;
 

@@ -5,7 +5,7 @@ import org.example.spring.database.entity.Role;
 import org.example.spring.database.entity.User;
 import org.example.spring.database.querydsl.QPredicate;
 import org.example.spring.database.repository.UserRepository;
-import org.example.spring.dto.FilterUser;
+import org.example.spring.dto.UserFilter;
 import org.example.spring.integration.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
@@ -92,7 +92,7 @@ class UserRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkCustomImplementations() {
-        var filter = FilterUser.builder()
+        var filter = UserFilter.builder()
                 .lastName("ov")
                 .birthDate(LocalDate.now().plusDays(1))
                 .build();

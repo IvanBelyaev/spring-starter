@@ -1,28 +1,19 @@
 package org.example.spring.integration;
 
 import lombok.RequiredArgsConstructor;
-import org.example.spring.dto.UserReadDto;
+import org.example.spring.dto.UserCreateEditDto;
 import org.example.spring.http.controller.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.example.spring.dto.UserCreateEditDto.Fields.birthDate;
-import static org.example.spring.dto.UserCreateEditDto.Fields.companyId;
-import static org.example.spring.dto.UserCreateEditDto.Fields.firstName;
-import static org.example.spring.dto.UserCreateEditDto.Fields.lastName;
-import static org.example.spring.dto.UserCreateEditDto.Fields.role;
-import static org.example.spring.dto.UserCreateEditDto.Fields.username;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.example.spring.dto.PageResponse.Fields.content;
+import static org.example.spring.dto.UserCreateEditDto.Fields.*;
+import static org.example.spring.dto.UserReadDto.Fields.username;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
@@ -39,7 +30,7 @@ class UserControllerTest extends IntegrationTestBase {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/users"))
                 .andExpect(model().attributeExists("users"))
-                .andExpect(model().attribute("users", hasSize(5)));
+                .andExpect(model().attribute("users", hasProperty(content, hasSize(5))));
     }
 
     @Test
@@ -48,8 +39,7 @@ class UserControllerTest extends IntegrationTestBase {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/user"))
                 .andExpect(model().attributeExists("user"))
-                .andExpect(model().attribute(
-                        "user", hasProperty(UserReadDto.Fields.username, equalTo(FIRST_USER_USERNAME))));
+                .andExpect(model().attribute("user", hasProperty(username, equalTo(FIRST_USER_USERNAME))));
     }
 
     @Test
@@ -61,7 +51,7 @@ class UserControllerTest extends IntegrationTestBase {
     @Test
     void create() throws Exception {
         mockMvc.perform(post("/users")
-                        .param(username, "test@gmail.com")
+                        .param(UserCreateEditDto.Fields.username, "test@gmail.com")
                         .param(firstName, "some first name")
                         .param(lastName, "some last name")
                         .param(role, "ADMIN")
@@ -77,7 +67,7 @@ class UserControllerTest extends IntegrationTestBase {
     @Test
     void update() throws Exception {
         mockMvc.perform(post("/users/" + FIRST_USER_ID + "/update")
-                        .param(username, "test@gmail.com")
+                        .param(UserCreateEditDto.Fields.username, "test@gmail.com")
                         .param(firstName, "some first name")
                         .param(lastName, "some last name")
                         .param(role, "ADMIN")

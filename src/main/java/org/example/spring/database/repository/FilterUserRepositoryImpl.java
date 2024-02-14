@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.spring.database.entity.Role;
 import org.example.spring.database.entity.User;
 import org.example.spring.database.querydsl.QPredicate;
-import org.example.spring.dto.FilterUser;
+import org.example.spring.dto.UserFilter;
 import org.example.spring.dto.PersonalInfo;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -57,7 +57,7 @@ public class FilterUserRepositoryImpl implements FilterUserRepository {
             """;
 
     @Override
-    public List<User> findAllByFilter(FilterUser filterUser) {
+    public List<User> findAllByFilter(UserFilter userFilter) {
 //        var cb = entityManager.getCriteriaBuilder();
 //        var criteria = cb.createQuery(User.class);
 //        var user = criteria.from(User.class);
@@ -78,9 +78,9 @@ public class FilterUserRepositoryImpl implements FilterUserRepository {
 //        return entityManager.createQuery(criteria).getResultList();
 
         var predicate = QPredicate.builder()
-                .add(filterUser.getFirstName(), user.firstName::containsIgnoreCase)
-                .add(filterUser.getLastName(), user.lastName::containsIgnoreCase)
-                .add(filterUser.getBirthDate(), user.birthDate::before)
+                .add(userFilter.getFirstName(), user.firstName::containsIgnoreCase)
+                .add(userFilter.getLastName(), user.lastName::containsIgnoreCase)
+                .add(userFilter.getBirthDate(), user.birthDate::before)
                 .build();
 
         return new JPAQuery<User>(entityManager)

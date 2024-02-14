@@ -14,17 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class CompanyServiceIT extends IntegrationTestBase {
-    private static final Integer COMPANY_ID = 1;
+    private static final Integer FIRST_COMPANY_ID = 1;
+    private static final String FIRST_COMPANY_NAME = "Google";
 
     private final CompanyService companyService;
     private final DatabaseProperties databaseProperties;
 
     @Test
     void findById() {
-        Optional<CompanyReadDto> maybeCompany = companyService.findById(COMPANY_ID);
+        Optional<CompanyReadDto> maybeCompany = companyService.findById(FIRST_COMPANY_ID);
 
         assertThat(maybeCompany).isPresent();
-        CompanyReadDto expectedResult = new CompanyReadDto(COMPANY_ID, null);
+        CompanyReadDto expectedResult = new CompanyReadDto(FIRST_COMPANY_ID, FIRST_COMPANY_NAME);
         maybeCompany.ifPresent(companyReadDto -> assertThat(companyReadDto).isEqualTo(expectedResult));
     }
 }
