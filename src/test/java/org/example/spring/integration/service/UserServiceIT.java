@@ -36,7 +36,6 @@ public class UserServiceIT extends IntegrationTestBase {
     @Test
     void create() {
         var userCreateEditDto = new UserCreateEditDto(
-                null,
                 "test",
                 "test",
                 "test",
@@ -65,7 +64,6 @@ public class UserServiceIT extends IntegrationTestBase {
     @Test
     void update() {
         var userCreateEditDto = new UserCreateEditDto(
-                USER_ID,
                 "test",
                 "test",
                 "test",

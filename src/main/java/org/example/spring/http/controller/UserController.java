@@ -1,5 +1,6 @@
 package org.example.spring.http.controller;
 
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.example.spring.database.entity.Role;
 import org.example.spring.dto.PageResponse;
@@ -7,10 +8,14 @@ import org.example.spring.dto.UserCreateEditDto;
 import org.example.spring.dto.UserFilter;
 import org.example.spring.service.CompanyService;
 import org.example.spring.service.UserService;
+import org.example.spring.validation.group.CreateAction;
+import org.example.spring.validation.group.UpdateAction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -51,8 +56,11 @@ public class UserController {
 
     @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
-    public String create(@ModelAttribute UserCreateEditDto user, RedirectAttributes redirectAttributes) {
-        if (true) {
+    public String create(@Validated(value = {Default.class, CreateAction.class}) @ModelAttribute UserCreateEditDto user,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/users/registration";
         }
@@ -61,7 +69,8 @@ public class UserController {
 
 //    @PutMapping("/{id}")
     @PostMapping("/{id}/update")
-    public String update(@PathVariable("id") Long id, @ModelAttribute UserCreateEditDto user) {
+    public String update(@PathVariable("id") Long id,
+                         @Validated(value = {Default.class, UpdateAction.class}) @ModelAttribute UserCreateEditDto user) {
         return userService.update(id, user)
                 .map(userReadDto -> "redirect:/users/" + userReadDto.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

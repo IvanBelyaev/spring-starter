@@ -45,7 +45,7 @@ class UserControllerTest extends IntegrationTestBase {
     @Test
     void findById_userNotFound() throws Exception {
         mockMvc.perform(get("/users/" + -123))
-                .andExpect(status().is4xxClientError());
+                .andExpect(view().name("error/error500"));
     }
 
     @Test
