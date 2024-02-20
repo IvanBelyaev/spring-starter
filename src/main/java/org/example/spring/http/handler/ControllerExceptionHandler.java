@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
-@ControllerAdvice
-public class ControllerExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
+@ControllerAdvice(basePackages = "org.example.spring.http.controller")
+public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String handleExceptions(Exception exception) {

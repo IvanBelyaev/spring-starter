@@ -26,7 +26,7 @@ public class GreetingController {
 //        request.setAttribute("user", new UserReadDto(1L, "Ivan"));
 //        request.getSession().setAttribute("user", new UserReadDto(1L, "Ivan"));
 
-        model.addAttribute("user", new UserReadDto(1L, "Ivan", null, null, null, null, null));
+        model.addAttribute("user", new UserReadDto(1L, "Ivan", null, null, null, null,null, null));
         return "greeting/hello";
     }
 

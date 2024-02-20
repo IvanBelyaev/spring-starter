@@ -7,6 +7,7 @@ import lombok.experimental.FieldNameConstants;
 import org.example.spring.database.entity.Role;
 import org.example.spring.validation.UserInfo;
 import org.example.spring.validation.group.CreateAction;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -28,4 +29,6 @@ public class UserCreateEditDto {
     Role role;
 
     Integer companyId;
+
+    MultipartFile image;
 }

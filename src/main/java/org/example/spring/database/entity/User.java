@@ -41,6 +41,8 @@ public class User extends Auditing<Long> {
 
     private LocalDate birthDate;
 
+    private String image;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
