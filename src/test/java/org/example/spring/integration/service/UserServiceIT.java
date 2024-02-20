@@ -6,6 +6,9 @@ import org.example.spring.dto.UserCreateEditDto;
 import org.example.spring.integration.IntegrationTestBase;
 import org.example.spring.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -19,6 +22,9 @@ public class UserServiceIT extends IntegrationTestBase {
     private static final Long USER_ID = 1L;
     private static final Integer COMPANY_ID = 1;
     private static final Long NEXT_USER_ID = 6L;
+
+    @Mock
+    private static MultipartFile multipartFile;
 
     @Test
     void findAll() {
@@ -35,13 +41,15 @@ public class UserServiceIT extends IntegrationTestBase {
 
     @Test
     void create() {
+        Mockito.when(multipartFile.isEmpty()).thenReturn(true);
         var userCreateEditDto = new UserCreateEditDto(
                 "test",
                 "test",
                 "test",
                 LocalDate.now(),
                 Role.ADMIN,
-                COMPANY_ID
+                COMPANY_ID,
+                multipartFile
         );
         var userReadDto = userService.create(userCreateEditDto);
 
@@ -63,13 +71,15 @@ public class UserServiceIT extends IntegrationTestBase {
 
     @Test
     void update() {
+        Mockito.when(multipartFile.isEmpty()).thenReturn(true);
         var userCreateEditDto = new UserCreateEditDto(
                 "test",
                 "test",
                 "test",
                 LocalDate.now(),
                 Role.ADMIN,
-                COMPANY_ID
+                COMPANY_ID,
+                multipartFile
         );
         var maybeUser = userService.update(USER_ID, userCreateEditDto);
 

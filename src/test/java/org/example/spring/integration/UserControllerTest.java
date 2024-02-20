@@ -5,14 +5,14 @@ import org.example.spring.dto.UserCreateEditDto;
 import org.example.spring.http.controller.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.example.spring.dto.PageResponse.Fields.content;
 import static org.example.spring.dto.UserCreateEditDto.Fields.*;
 import static org.example.spring.dto.UserReadDto.Fields.username;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -50,7 +50,10 @@ class UserControllerTest extends IntegrationTestBase {
 
     @Test
     void create() throws Exception {
-        mockMvc.perform(post("/users")
+        var mockMultipartFile =
+                new MockMultipartFile("image", "test.png", "image/png", "test".getBytes());
+        mockMvc.perform(multipart("/users")
+                        .file(mockMultipartFile)
                         .param(UserCreateEditDto.Fields.username, "test@gmail.com")
                         .param(firstName, "some first name")
                         .param(lastName, "some last name")
@@ -66,7 +69,10 @@ class UserControllerTest extends IntegrationTestBase {
 
     @Test
     void update() throws Exception {
-        mockMvc.perform(post("/users/" + FIRST_USER_ID + "/update")
+        var mockMultipartFile =
+                new MockMultipartFile("image", "test.png", "image/png", "test".getBytes());
+        mockMvc.perform(multipart("/users/" + FIRST_USER_ID + "/update")
+                        .file(mockMultipartFile)
                         .param(UserCreateEditDto.Fields.username, "test@gmail.com")
                         .param(firstName, "some first name")
                         .param(lastName, "some last name")
