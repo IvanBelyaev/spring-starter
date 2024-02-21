@@ -33,6 +33,8 @@ public class User extends Auditing<Long> {
     @Column(unique = true, nullable = false)
     private String username;
 
+    private String password;
+
     @Column(name = "firstname", nullable = false)
     private String firstName;
 
