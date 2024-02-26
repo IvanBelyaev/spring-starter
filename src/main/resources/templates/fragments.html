@@ -6,6 +6,7 @@
 </head>
 <body>
     <div th:fragment="header">
+        <span sec:authentication="name"></span>
         <form action="/logout" method="post">
             <button type="submit">Logout</button>
         </form>
