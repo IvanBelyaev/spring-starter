@@ -19,6 +19,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
 //        http.httpBasic(Customizer.withDefaults());
         http.formLogin(formLogin -> formLogin.loginPage("/login").permitAll().defaultSuccessUrl("/users"));
+        http.logout(logout -> logout.logoutUrl("/logout").deleteCookies("JSESSIONID").logoutSuccessUrl("/login"));
         return http.build();
     }
 
