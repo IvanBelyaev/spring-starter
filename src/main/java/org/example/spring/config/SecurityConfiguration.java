@@ -9,17 +9,34 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.example.spring.database.entity.Role.ADMIN;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
-//        http.httpBasic(Customizer.withDefaults());
-        http.formLogin(formLogin -> formLogin.loginPage("/login").permitAll().defaultSuccessUrl("/users"));
-        http.logout(logout -> logout.logoutUrl("/logout").deleteCookies("JSESSIONID").logoutSuccessUrl("/login"));
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/login", "/users/registration",
+                                "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/users/{id}/delete").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers("/admin/**").hasAuthority(ADMIN.getAuthority())
+                        .anyRequest().authenticated()
+                )
+//              .httpBasic(Customizer.withDefaults())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/users")
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/login")
+                );
         return http.build();
     }
 
