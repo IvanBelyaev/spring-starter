@@ -63,7 +63,7 @@ class UserControllerTest extends IntegrationTestBase {
                 )
                 .andExpectAll(
                         status().is3xxRedirection(),
-                        redirectedUrlPattern("/users/{\\d+}")
+                        redirectedUrl("/login")
                 );
     }
 

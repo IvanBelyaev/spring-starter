@@ -44,6 +44,7 @@ public class UserServiceIT extends IntegrationTestBase {
         Mockito.when(multipartFile.isEmpty()).thenReturn(true);
         var userCreateEditDto = new UserCreateEditDto(
                 "test",
+                null,
                 "test",
                 "test",
                 LocalDate.now(),
@@ -74,6 +75,7 @@ public class UserServiceIT extends IntegrationTestBase {
         Mockito.when(multipartFile.isEmpty()).thenReturn(true);
         var userCreateEditDto = new UserCreateEditDto(
                 "test",
+                null,
                 "test",
                 "test",
                 LocalDate.now(),
