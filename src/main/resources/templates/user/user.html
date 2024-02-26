@@ -8,6 +8,7 @@
     <div th:insert="~{fragments :: header}"></div>
     <form th:action="@{/users/{userId}/update (userId=${user.id})}"
           enctype="multipart/form-data" method="post" th:object="${user}">
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.getToken()}">-->
         <label for="username">Username:
             <input id="username" type="text" name="username" th:value="*{username}">
         </label><br>

@@ -5,7 +5,7 @@
     <title>Registration</title>
 </head>
 <body>
-    <form action="/users" enctype="multipart/form-data" method="post" th:object="${user}">
+    <form th:action="@{/users}" enctype="multipart/form-data" method="post" th:object="${user}">
         <label for="username">Username:
             <input id="username" type="text" name="username" th:value="*{username}">
         </label><br>
