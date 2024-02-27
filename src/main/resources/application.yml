@@ -42,3 +42,20 @@ spring:
       format_sql: true
       hbm2ddl.auto: validate
     open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 722073332589-m9vv7jboc7uo2q5ka5rtsv59onohovuq.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: 722073332589-m9vv7jboc7uo2q5ka5rtsv59onohovuq.apps.googleusercontent.com
+      client-secret: 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
+      scopes: openid,email,profile
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
