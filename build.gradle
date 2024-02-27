@@ -45,6 +45,7 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${versions.querydsl}:jakarta"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.testcontainers:postgresql:${versions.testContainers}"
 }
 

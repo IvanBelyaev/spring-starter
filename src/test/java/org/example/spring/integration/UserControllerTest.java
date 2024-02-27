@@ -1,10 +1,11 @@
 package org.example.spring.integration;
 
 import lombok.RequiredArgsConstructor;
+import org.example.spring.database.entity.Role;
 import org.example.spring.dto.UserCreateEditDto;
-import org.example.spring.http.controller.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -12,6 +13,8 @@ import static org.example.spring.dto.PageResponse.Fields.content;
 import static org.example.spring.dto.UserCreateEditDto.Fields.*;
 import static org.example.spring.dto.UserReadDto.Fields.username;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,7 +25,16 @@ class UserControllerTest extends IntegrationTestBase {
     private static final Long FIRST_USER_ID = 1L;
     private static final String FIRST_USER_USERNAME = "ivan@gmail.com";
     private final MockMvc mockMvc;
-    private final UserController userController;
+
+//    @BeforeEach
+//    void init() {
+//        List<GrantedAuthority> authorities = List.of(Role.ADMIN, Role.USER);
+//        var user = new User("testUser@gmail.com", "test", authorities);
+//        var authenticationToken = new TestingAuthenticationToken(user, user.getPassword(), authorities);
+//        var securityContext = SecurityContextHolder.createEmptyContext();
+//        securityContext.setAuthentication(authenticationToken);
+//        SecurityContextHolder.setContext(securityContext);
+//    }
 
     @Test
     void findAll() throws Exception {
@@ -44,8 +56,14 @@ class UserControllerTest extends IntegrationTestBase {
 
     @Test
     void findById_userNotFound() throws Exception {
-        mockMvc.perform(get("/users/" + -123))
-                .andExpect(view().name("error/error500"));
+        mockMvc.perform(get("/users/" + -123)
+                        .with(user("testUser@gmail.com")
+                                        .password("test")
+                                        .authorities(Role.values())
+                        )
+                )
+                .andExpectAll(status().is(HttpStatus.NOT_FOUND.value()));
+//                .andExpect(view().name("error/error500"));
     }
 
     @Test
@@ -55,11 +73,13 @@ class UserControllerTest extends IntegrationTestBase {
         mockMvc.perform(multipart("/users")
                         .file(mockMultipartFile)
                         .param(UserCreateEditDto.Fields.username, "test@gmail.com")
+                        .param(rawPassword, "test")
                         .param(firstName, "some first name")
                         .param(lastName, "some last name")
                         .param(role, "ADMIN")
                         .param(companyId, "1")
                         .param(birthDate, "2000-05-15")
+                        .with(csrf())
                 )
                 .andExpectAll(
                         status().is3xxRedirection(),
@@ -78,6 +98,7 @@ class UserControllerTest extends IntegrationTestBase {
                         .param(lastName, "some last name")
                         .param(role, "ADMIN")
                         .param(companyId, "1")
+                        .with(csrf())
                 )
                 .andExpectAll(
                         status().is3xxRedirection(),
@@ -87,7 +108,9 @@ class UserControllerTest extends IntegrationTestBase {
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(post("/users/" + FIRST_USER_ID + "/delete"))
+        mockMvc.perform(post("/users/" + FIRST_USER_ID + "/delete")
+                        .with(csrf())
+                )
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/users")
