@@ -18,11 +18,18 @@ db:
 pool:
   size: 10
 
+app:
+  common:
+    logging:
+      enabled: true
+      level: INFO
+
 logging:
   level:
     root: INFO
     org.example.spring.bpp: INFO
     org.springframework.jdbc.core: TRACE
+    org.example.logging: TRACE
 spring:
   mvc:
     format:
